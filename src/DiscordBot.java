@@ -8,7 +8,7 @@ public class DiscordBot {
 private final ShardManager shardManager;
 	
 	public DiscordBot() {
-		String token = "MTIwNzY3MTc0NTcwNDc1NTMxMA.GbfQiy.GpdGb0YYNraXnkzOBbCjCli0CzuDPM4ZKRw8Ts";
+		String token = "";
 		DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
 		builder.setStatus(OnlineStatus.ONLINE);
 		builder.setActivity(Activity.watching("The Marketplace"));
