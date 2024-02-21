@@ -16,27 +16,37 @@ public class Car {
 		HTMLtoString();	// Stores the data from HTML to the 'data' String
 		String price=data, basicInfo = data, location=data, milage=data;
 		
-		basicInfo = basicInfo.substring(basicInfo.indexOf("<meta property=\"og:title\" content=\"")+35);	// Trim to Year
-		this.year = (basicInfo.substring(0,basicInfo.indexOf(" ")));
-		basicInfo = basicInfo.substring(basicInfo.indexOf(" ")+1);			// Trim to Make
-		this.make = (basicInfo.substring(0,basicInfo.indexOf(" ")));
-		basicInfo = basicInfo.substring(basicInfo.indexOf(" ")+1);			// Trim to Model
-		this.model = (basicInfo.substring(0,basicInfo.indexOf(" ")));	
-		location = location.substring(location.indexOf(", California")-20);	// Trim to Location
-		location = location.substring(location.indexOf("-")+2);
-		this.location = (location.substring(0,location.indexOf("|")-1));
-		price = price.substring(price.indexOf("\",\"currency\":\"USD\",\"amount\":\"")-80);	// Trim to Price
-		price = price.substring(price.indexOf("$"));
-		this.price = (price.substring(0,price.indexOf("\"")));		
-		milage = milage.substring(milage.indexOf("\"unit\":\"MILES\",\"value\":")+23);		// Trim to Miles
-		this.milage = (milage.substring(0,milage.indexOf("}")));
+		// GET DATA FROM ITEM
+					basicInfo = basicInfo.substring(basicInfo.indexOf("<meta property=\"og:title\" content=\"")+35);	
+		this.year = checkDataCharacters(basicInfo.substring(0,basicInfo.indexOf(" ")));
+					basicInfo = basicInfo.substring(basicInfo.indexOf(" ")+1);
+		this.make = checkDataCharacters(basicInfo.substring(0,basicInfo.indexOf(" ")));
+					basicInfo = basicInfo.substring(basicInfo.indexOf(" ")+1);			// Trim to Model
+		this.model = checkDataCharacters(basicInfo.substring(0,basicInfo.indexOf(" ")));	
+					location = location.substring(location.indexOf(", California")-20);	// Trim to Location
+					location = location.substring(location.indexOf("-")+2);
+		this.location = checkDataCharacters(location.substring(0,location.indexOf("|")-1));
+					price = price.substring(price.indexOf("\",\"currency\":\"USD\",\"amount\":\"")-80);	// Trim to Price
+					price = price.substring(price.indexOf("$"));
+		this.price = checkDataCharacters(price.substring(0,price.indexOf("\"")));		
+					milage = milage.substring(milage.indexOf("\"unit\":\"MILES\",\"value\":")+23);		// Trim to Miles
+		this.milage = checkDataCharacters(milage.substring(0,milage.indexOf("}")));
 		
 		//System.out.println("Location: ["+milage+"]");
 		
 		link="https://www.facebook.com/marketplace/item/"+ID;
-		//saveNewHTML();
 	}	
 	
+	private String checkDataCharacters(String data) {
+		String output = "";
+		for(int x = 0; x < data.length(); x++) {
+			if(data.charAt(x) != '\"') {
+				output+=data.charAt(x);
+			}
+		}
+		return output;
+	}
+
 	private void HTMLtoString() {
 		try {
 			Scanner scan = new Scanner(new File("HTML.txt"));
@@ -61,6 +71,6 @@ public class Car {
 	
 	public String toString() {
 		//System.out.println("Data: ["+data+"]");
-		return "Car #"+carNumber+" -- Link: "+link+"\n> ID:\t["+ID+"]\n> Year:\t["+year+"]\n> Make:\t["+make+"]\n> Model:["+model+"]\n> City: ["+location+"]\n> Price:["+price+"]\n> Miles:["+milage+"]";
+		return "Car #"+carNumber+" -- Link: "+link+"\n> ID: ["+ID+"]\n> Year:    ["+year+"]\n> Make:  ["+make+"]\n> Model:["+model+"]\n> City:    ["+location+"]\n> Price:  ["+price+"]\n> Miles:  ["+milage+"]";
 	}
 }

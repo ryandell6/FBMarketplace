@@ -11,22 +11,34 @@ public class FBMarketplace {
 	private LinkedList<String> ids = new LinkedList<String>();
 	private String url = "", search = "cars for sale";
 	private boolean newestFirst = true, lowestPrice = false;
-	private int minPrice = 0, maxPrice = 10;
+	private int minPrice = 1000, maxPrice = 6000;
+	public String message = null;
 	
-	public void run() {
-		/*setFilters();				// Creates the url for getHTML()
+	public FBMarketplace() {
+		initiate();
+	}
+	private void initiate() {
+		setFilters();				// Creates the url for getHTML()
 		getHTML();					// Saves the data from the search to a file
 		saveIDs();					// Saves all item IDs from the HTML into an array
 		//printIDs();				// Print all IDs
 		//parseAllData();			// Parses the data received by the hmtl
-		
+		storeIDsToFile();
+		run();
+	}
+	public void run() {		
 		if(checkForNewListing()) {	// Checks to see if there is a new listing, return true/false
 			notifyForNewListing();	// Send a message with the listing information and a url
-		}*/
-		sendNotification();
+		}
 	}
 
-	public void setFilters() {
+	private void clearIDsLinkedList() {
+		while(!ids.isEmpty()) {
+			ids.pop();
+		}
+	}
+
+	private void setFilters() {
 		String base = "https://www.facebook.com/marketplace", userID = "105598082806892";
 		String searchBase = "search?", query = "query=", newestFirst = "", lowestPrice = "", price = "", endBase = "";
 		
@@ -61,12 +73,12 @@ public class FBMarketplace {
 		System.out.println(url);
 	}
 
-	public void getHTML() {
+	private void getHTML() {
 		GetHTML html = new GetHTML();
 		html.run(url);
 	}
 
-	public void saveIDs() {
+	private void saveIDs() {
 		try {
 			// Save IDs to linked list
 			Scanner scan = new Scanner(new File("HTML.txt"));
@@ -85,15 +97,15 @@ public class FBMarketplace {
 		}
 	}
 	
-	public void storeIDsToFile() {
+	private void storeIDsToFile() {
 		// Save IDs to file
 		// DELETE PREVIOUS IDs FILE
 		File fileName = new File("IDs.txt");
-		FileWriter fooWriter;
 		try {
-			fooWriter = new FileWriter(fileName, false);
-			fooWriter.write(" ");
-			fooWriter.close();
+			PrintWriter writer = new PrintWriter(fileName);
+			writer.print("");
+			// other operations
+			writer.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} // true to append
@@ -108,14 +120,17 @@ public class FBMarketplace {
 		}
 	}
 	
-	public void printIDs() {
-		System.out.println("IDs Size: ["+ids.size()+"]");
+	private void printIDs() {
 		while(!ids.isEmpty()) {
 			System.out.println("https://www.facebook.com/marketplace/item/"+ids.pop());
 		}
 	}
 	
-	public void parseAllData() {
+	void resetMessage() {
+		message = null;
+	}
+	
+	private void parseAllData() {
 		while(!ids.isEmpty()) {
 			Car car = new Car();
 			car.setData(ids.pop());
@@ -125,17 +140,18 @@ public class FBMarketplace {
 
 	public boolean checkForNewListing() {
 		try {
+			LinkedList<String> tempIDs = (LinkedList<String>) ids.clone();
 			getHTML();	// Get new listing IDs
 			saveIDs();	// Save IDs to linked list
 			
 			// Compare new listings to old listings
 			Scanner scan = new Scanner(new File("IDs.txt"));
-			
+						
 			String line, id;
 			while(scan.hasNextLine()) {
 				line=scan.nextLine();
-				while(!ids.isEmpty()) {
-					id = ids.pop();
+				while(!tempIDs.isEmpty()) {
+					id = tempIDs.pop();
 					if(!line.contains(id)){
 						System.out.println("New ID: ["+id+"]");
 						return true;
@@ -148,14 +164,18 @@ public class FBMarketplace {
 		return false;
 	}
 
-	public void notifyForNewListing() {
+	private void notifyForNewListing() {
 		storeIDsToFile();
 		System.out.println("New Listing Detected!");
-		sendNotification();
+		message = sendNotification();
+		System.out.println(message);
+		clearIDsLinkedList();
+		initiate();
 	}
 	
-	public void sendNotification() {
-		
+	public String sendNotification() {
+		Car car = new Car();
+		car.setData(ids.peek());
+		return car.toString();
 	}
-
 }
