@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class MyListener extends ListenerAdapter {
     private final String channelId;
-    private int timer = 8;
+    private int timer = 180;
 
     public MyListener(String channelId) {
         this.channelId = channelId;
@@ -19,11 +19,9 @@ public class MyListener extends ListenerAdapter {
         if (channel != null) {
         	FBMarketplace fb = new FBMarketplace();
     		while(true) {
-    			for(int x = 0; x < timer; x++) {
-    				System.out.print(".");
-    				wait(1);
-    			}
-    			System.out.println("\nEnd of wait.");
+    			System.out.print("waiting "+timer+" seconds.");
+			wait(timer);
+    			System.out.println(" - End of wait.");
     			fb.run();
 				if(fb.message!=null) {
 					sendMessage(channel, fb.message);

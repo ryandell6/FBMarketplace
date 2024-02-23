@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class FBMarketplace {
 	private LinkedList<String> ids = new LinkedList<String>();
-	private String url = "", search = "cars for sale";
+	private String url = "", search = "cars for sale", newId = "";;
 	private boolean newestFirst = true, lowestPrice = false;
 	private int minPrice = 1000, maxPrice = 6000;
 	public String message = null;
@@ -20,7 +20,7 @@ public class FBMarketplace {
 	private void initiate() {
 		setFilters();				// Creates the url for getHTML()
 		getHTML();					// Saves the data from the search to a file
-		saveIDs();					// Saves all item IDs from the HTML into an array
+		setIDs();					// Saves all item IDs from the HTML into an array
 		//printIDs();				// Print all IDs
 		//parseAllData();			// Parses the data received by the hmtl
 		storeIDsToFile();
@@ -78,7 +78,7 @@ public class FBMarketplace {
 		html.run(url);
 	}
 
-	private void saveIDs() {
+	private void setIDs() {
 		try {
 			// Save IDs to linked list
 			Scanner scan = new Scanner(new File("HTML.txt"));
@@ -142,7 +142,7 @@ public class FBMarketplace {
 		try {
 			LinkedList<String> tempIDs = (LinkedList<String>) ids.clone();
 			getHTML();	// Get new listing IDs
-			saveIDs();	// Save IDs to linked list
+			setIDs();	// Save IDs to linked list
 			
 			// Compare new listings to old listings
 			Scanner scan = new Scanner(new File("IDs.txt"));
@@ -154,6 +154,8 @@ public class FBMarketplace {
 					id = tempIDs.pop();
 					if(!line.contains(id)){
 						System.out.println("New ID: ["+id+"]");
+						newId = id;
+						ids.push(id);
 						return true;
 					}
 				}
@@ -175,7 +177,7 @@ public class FBMarketplace {
 	
 	public String sendNotification() {
 		Car car = new Car();
-		car.setData(ids.peek());
+		car.setData(newId);
 		return car.toString();
 	}
 }

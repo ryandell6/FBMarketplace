@@ -39,6 +39,9 @@ public class Car {
 	
 	private String checkDataCharacters(String data) {
 		String output = "";
+		if(data==null){
+			str = "nullInput - Review Item";
+		}
 		for(int x = 0; x < data.length(); x++) {
 			if(data.charAt(x) != '\"') {
 				output+=data.charAt(x);
