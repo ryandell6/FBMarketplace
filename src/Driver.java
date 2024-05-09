@@ -98,6 +98,7 @@ public class Driver {
 	
 	// TOOLS
 	public static void wait(int minutes) {
+		url.resetLoop();
 		try {
 			Thread.sleep(minutes * 1000 * 60);
 		} catch (InterruptedException e) {
