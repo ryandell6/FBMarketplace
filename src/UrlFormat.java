@@ -39,13 +39,13 @@ public class UrlFormat {
 		data = data.substring(data.indexOf("\n")+1);
 		this.locationCity = data.substring(data.indexOf("City: ")+6,data.indexOf("\n")).trim();
 		data = data.substring(data.indexOf("\n")+1);
-		String filterString = data.substring(data.indexOf("Filters: ")+9,data.indexOf("\n")).trim();
+		String filterString = data.substring(data.indexOf("Sort: ")+6,data.indexOf("\n")).trim();
 		data = data.substring(data.indexOf("\n")+1);
 		this.minPrice = Integer.valueOf(data.substring(data.indexOf("MinPrice: ")+10,data.indexOf("\n")).trim());
 		data = data.substring(data.indexOf("\n")+1);
 		this.maxPrice = Integer.valueOf(data.substring(data.indexOf("MaxPrice: ")+10,data.indexOf("\n")).trim());
 		
-		if(filterString.equals("Newest First")) {
+		if(filterString.toLowerCase().trim().equals("newest first")) {
 			sortByCreationTime = true;
 		} else {
 			sortByCreationTime = false;
