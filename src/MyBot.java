@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class MyBot {	
-	private String tokenURL = "https://www.reddit.com/user/LeadExtreme5159/comments/1az3ma8/code/0000", tokenInitiator = "MTI";
+	private String tokenURL = "https://www.reddit.com/user/LeadExtreme5159/comments/1az3ma8/code", tokenInitiator = "MTI";
 	
     public MyBot() {
         JDABuilder builder = JDABuilder.createDefault(getToken());
