@@ -1,0 +1,5 @@
+Search: cars for sale
+City: rancho cordova
+Sort: newst first
+MinPrice: 1
+MaxPrice: 1000
