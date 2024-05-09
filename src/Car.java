@@ -44,7 +44,7 @@ public class Car {
 			}
 		}catch(Exception e) {
 			try {
-				Scanner scan = new Scanner(new File("/Users/ryan/eclipse-workspace/ChatFBMarketplace/HTML.txt"));
+				Scanner scan = new Scanner(new File("HTML.txt"));
 				String line = "", key = "amount_with_offset_in_currency";
 				@SuppressWarnings("unused")
 				int counter  = 1;
