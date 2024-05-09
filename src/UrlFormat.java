@@ -6,7 +6,7 @@ public class UrlFormat {
 	private String url = "", locationCity = "Rancho Cordova";
 	private boolean filterDayOld = true, sortByCreationTime = true, urlFlag = false;
 	private String location, dayOld, sortBy, searchBar;
-	private int minPrice, maxPrice;
+	private int minPrice, maxPrice, originalMinPrice, originalMaxPrice;
 	
 	public UrlFormat() {
 		wait(5);
@@ -17,6 +17,10 @@ public class UrlFormat {
 	public void loop() {
 		minPrice+=1;
 		setUrl();
+	}
+
+	public void resetLoop(){
+		minPrice = originalMinPrice;
 	}
 	
 	private void setVariables() {
